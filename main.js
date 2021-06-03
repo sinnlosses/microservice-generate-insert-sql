@@ -31,6 +31,7 @@ function execute() {
             var r = length_1 % nums.length;
             var numberData = nums.repeat(q) + nums.substring(0, r);
             if (precision != 0) {
+                numberData = numberData.substring(0, length_1 - precision);
                 numberData = numberData + "." + nums.substring(0, precision);
             }
             outputRows[i] = numberData;
@@ -87,7 +88,8 @@ function addHyphen(englishName, columnLength) {
     var output = englishName;
     for (var i = englishName.length + 1; i <= columnLength; i++) {
         if (i % 10 == 0) {
-            output = output + i / 10;
+            // 先頭1桁にしないと桁数があふれる
+            output = output + i.toString().substring(0, 1);
         }
         else if (i == columnLength) {
             output = output + columnLength % 10;

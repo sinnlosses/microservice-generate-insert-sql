@@ -35,6 +35,7 @@
             const r = length%nums.length;
             let numberData:string = nums.repeat(q) + nums.substring(0, r);
             if (precision != 0){
+                numberData = numberData.substring(0, length-precision)
                 numberData = numberData + "." + nums.substring(0, precision)
             }
             outputRows[i] = numberData;
@@ -95,7 +96,8 @@ function addHyphen(englishName: string, columnLength: number):string{
     let output:string = englishName;
     for(let i:number=englishName.length+1; i <= columnLength; i++){
         if (i % 10 == 0){
-            output = output + i/10;
+            // 先頭1桁にしないと桁数があふれる
+            output = output + i.toString().substring(0,1);
         } else if (i == columnLength){
             output = output + columnLength%10;
         } else {
