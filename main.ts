@@ -5,6 +5,7 @@
     const inputText:string = getHtmlInputElementById("inputTextarea").value;
     const inputRows:string[] = inputText.split("\n");
     const alphabets = new Alphabets();
+    const nums = new NumGenerator();
     const shiftingDate = new ShiftingDate();
     let outputRows:string[] = new Array(inputRows.length);
 
@@ -30,15 +31,8 @@
 
         //データ定義が数値型の場合は1〜9の数字を指定の長さになるまで繰り返してデータとする
         if(["int" , "numeric", "bigint"].includes(typeName.toLowerCase())){
-            const nums: string = "123456789";
-            const q = length/nums.length;
-            const r = length%nums.length;
-            let numberData:string = nums.repeat(q) + nums.substring(0, r);
-            if (precision != 0){
-                numberData = numberData.substring(0, length-precision)
-                numberData = numberData + "." + nums.substring(0, precision)
-            }
-            outputRows[i] = numberData;
+
+            outputRows[i] = nums.getOne(length, precision);
             continue
         }
         //データ定義が文字列の場合
@@ -194,5 +188,43 @@ class ShiftingDate {
      */
     upCount():void{
         this.count++;
+    }
+}
+
+class NumGenerator {
+    decimal: number
+    fraction: number
+    count: number;
+
+    /**
+     * コンストラクタ
+     */
+    constructor() {
+        this.count = 1;
+    }
+
+    /**
+     * カウンタのループにしたがった数値を生成する
+     * @returns 
+     */
+    getOne(length:number, precision:number): string{
+
+        const nums = "123456789";
+        let numberData:string = this.count.toString().repeat(length-precision);
+        if (precision != 0){
+            numberData = numberData + "." + nums.substring(0, precision)
+        }
+        this.upCount();
+        return numberData;
+    }
+
+    /**
+ * カウントアップ.
+     */
+    upCount():void{
+        this.count++;
+        if (this.count >= 10){
+            this.count = 1;
+        }
     }
 }

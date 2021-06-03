@@ -5,6 +5,7 @@ function execute() {
     var inputText = getHtmlInputElementById("inputTextarea").value;
     var inputRows = inputText.split("\n");
     var alphabets = new Alphabets();
+    var nums = new NumGenerator();
     var shiftingDate = new ShiftingDate();
     var outputRows = new Array(inputRows.length);
     for (var i = 0; i < inputRows.length; i++) {
@@ -26,15 +27,7 @@ function execute() {
         var precision = isNullToZero(splitedRows[3].trim());
         //データ定義が数値型の場合は1〜9の数字を指定の長さになるまで繰り返してデータとする
         if (["int", "numeric", "bigint"].includes(typeName.toLowerCase())) {
-            var nums = "123456789";
-            var q = length_1 / nums.length;
-            var r = length_1 % nums.length;
-            var numberData = nums.repeat(q) + nums.substring(0, r);
-            if (precision != 0) {
-                numberData = numberData.substring(0, length_1 - precision);
-                numberData = numberData + "." + nums.substring(0, precision);
-            }
-            outputRows[i] = numberData;
+            outputRows[i] = nums.getOne(length_1, precision);
             continue;
         }
         //データ定義が文字列の場合
@@ -177,4 +170,35 @@ var ShiftingDate = /** @class */ (function () {
         this.count++;
     };
     return ShiftingDate;
+}());
+var NumGenerator = /** @class */ (function () {
+    /**
+     * コンストラクタ
+     */
+    function NumGenerator() {
+        this.count = 1;
+    }
+    /**
+     * カウンタのループにしたがった数値を生成する
+     * @returns
+     */
+    NumGenerator.prototype.getOne = function (length, precision) {
+        var nums = "123456789";
+        var numberData = this.count.toString().repeat(length - precision);
+        if (precision != 0) {
+            numberData = numberData + "." + nums.substring(0, precision);
+        }
+        this.upCount();
+        return numberData;
+    };
+    /**
+ * カウントアップ.
+     */
+    NumGenerator.prototype.upCount = function () {
+        this.count++;
+        if (this.count >= 10) {
+            this.count = 1;
+        }
+    };
+    return NumGenerator;
 }());
