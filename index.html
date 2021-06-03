@@ -21,20 +21,16 @@
       </nav>
   
       <p>タブ区切りのテストデータを作成します。</p>
-      <p>1. 入力欄に物理名、データ型、長さを「タブ区切り」で入力してください。<br>
+      <p>1. 入力欄に物理名、データ型、長さ、精度を「タブ区切り」で入力してください。<br>
         例：<br>
-        player_id&#9;int&#9;7<br>
-        name&#9;varchar&#9;40<br>
-        2. 対象のテーブル名を入力してください。<br>
-        3. 実行ボタンをクリックしてください。<br>
+        player_id&#9;numeric&#9;7&#9;2<br>
+        name&#9;varchar&#9;40&#9;<br>
+        2. 実行ボタンをクリックしてください。<br>
       </p>
       <div class="form-group">
         <label for="inputTextarea">入力</label>
         <textarea class="form-control" id="inputTextarea" rows="5"></textarea>
       </div>
-
-      <label for="tableName">対象のテーブルを指定</label>
-      <input id="tableName" class="form-control" type="text" >
 
       <button id="execute" onclick="execute()" class="btn btn-primary">実行</button>
   
